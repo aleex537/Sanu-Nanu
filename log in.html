@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact & Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+        .container {
+            display: flex;
+            width: 100%;
+            max-width: 1200px;
+            margin: 20px;
+            background: white;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .contact-section, .login-container {
+            padding: 40px;
+            flex: 1;
+            text-align: center;
+        }
+        .contact-section {
+            background-color: #fafafa;
+        }
+        .contact-section h2, .login-container h2 {
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+        .contacts, .social-media, .download-app {
+            margin-bottom: 20px;
+        }
+        .contacts p, .social-media a, .download-app a {
+            display: block;
+            margin: 5px 0;
+            text-decoration: none;
+            color: #000;
+        }
+        .social-media a {
+            font-size: 24px;
+            margin: 0 10px;
+        }
+        .social-media a.facebook {
+            color: #3b5998;
+        }
+        .social-media a.twitter {
+            color: #00acee;
+        }
+        .social-media a.youtube {
+            color: #c4302b;
+        }
+        .social-media a.instagram {
+            color: #e1306c;
+        }
+        .download-app img {
+            width: 150px;
+            margin: 10px 0;
+        }
+        .social-login-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 25px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            text-decoration: none;
+            color: black;
+        }
+        .social-login-btn i {
+            margin-right: 10px;
+        }
+        .social-login-btn.google { border-color: #db4437; }
+        .social-login-btn.google i { color: #db4437; }
+        .social-login-btn.google:hover { background-color: #db4437; color: white; }
+        .social-login-btn.facebook { border-color: #3b5998; }
+        .social-login-btn.facebook i { color: #3b5998; }
+        .social-login-btn.facebook:hover { background-color: #3b5998; color: white; }
+        .social-login-btn.apple { border-color: #000000; }
+        .social-login-btn.apple i { color: #000000; }
+        .social-login-btn.apple:hover { background-color: #000000; color: white; }
+        .social-login-btn.twitter { border-color: #1da1f2; }
+        .social-login-btn.twitter i { color: #1da1f2; }
+        .social-login-btn.twitter:hover { background-color: #1da1f2; color: white; }
+        .social-login-btn.email { border-color: #555555; }
+        .social-login-btn.email i { color: #555555; }
+        .social-login-btn.email:hover { background-color: #555555; color: white; }
+        .create-account {
+            margin-top: 20px;
+        }
+        .create-account a {
+            color: #008CBA;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .create-account a:hover {
+            text-decoration: underline;
+        }
+        .terms {
+            margin-top: 20px;
+            font-size: 12px;
+            color: #888;
+        }
+        .terms a {
+            color: #008CBA;
+            text-decoration: none;
+        }
+        .terms a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="contact-section">
+            <h2>Contacts</h2>
+            <div class="contacts">
+                <p><i class="fa fa-home"></i> Biratnagar, Nepal</p>
+                <p><i class="fa fa-phone"></i> +977-9814438966</p>
+                <p><i class="fa fa-envelope"></i> Sanu_Nanu@gmail.com</p>
+            </div>
+            <div class="social-media">
+                <h2>Follow Us</h2>
+                <a href="https://www.facebook.com/Aman.rajbanshi.79219754" class="facebook"><i class="fa fa-facebook"></i></a>
+                <a href="#" class="twitter"><i class="fa fa-twitter"></i></a>
+                <a href="https://www.youtube.com/@sanunanuKids" class="youtube"><i class="fa fa-youtube"></i></a>
+                <a href="https://www.instagram.com/amanr_ajbanshi/" class="instagram"><i class="fa fa-instagram"></i></a>
+            </div>
+            <div class="download-app">
+                <h2>Download App</h2>
+                <a href="#"><img src="https://upload.wikimedia.org/wikipedia/commons/7/78/Google_Play_Store_badge_EN.svg" alt="Get it on Google Play"></a>
+                <a href="#"><img src="https://developer.apple.com/app-store/marketing/guidelines/images/badge-example-preferred_2x.png" alt="Download on the App Store"></a>
+            </div>
+        </div>
+        <div class="login-container">
+            <h2>Welcome back.</h2>
+            <a href="https://accounts.google.com/signin" class="social-login-btn google">
+                <i class="fa fa-google"></i> Sign in with Google
+            </a>
+            <a href="https://www.facebook.com/login" class="social-login-btn facebook">
+                <i class="fa fa-facebook"></i> Sign in with Facebook
+            </a>
+            <a href="https://appleid.apple.com/auth/authorize" class="social-login-btn apple">
+                <i class="fa fa-apple"></i> Sign in with Apple
+            </a>
+            <a href="https://twitter.com/login" class="social-login-btn twitter">
+                <i class="fa fa-twitter"></i> Sign in with Twitter
+            </a>
+            <a href="mailto:your-email@example.com" class="social-login-btn email">
+                <i class="fa fa-envelope"></i> Sign in with email
+            </a>
+            <div class="create-account">
+                No account? <a href="create acount.html">Create one</a>
+            </div>
+            <div class="terms">
+                Click "Sign In" to agree to Medium's <a href="terms.html">Terms of Service</a> and acknowledge that Medium's <a href="privacy.html">Privacy Policy</a> applies to you.
+            </div>
+        </div>
+    </div>
+</body>
+</html>

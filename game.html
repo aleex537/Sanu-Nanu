@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sanu Nanu Kids Educational Games</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f8ff;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+        header {
+            background-color: #ff6347;
+            color: white;
+            padding: 1rem 0;
+        }
+        section {
+            margin: 20px;
+        }
+        h1, h2 {
+            color: #ff6347;
+        }
+        .game-category {
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            background-color: #ff6347;
+            color: white;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        button:hover {
+            background-color: #ff7f50;
+        }
+        #gameContent {
+            margin-top: 20px;
+        }
+        .question {
+            margin: 20px 0;
+        }
+        .option {
+            display: block;
+            margin: 10px 0;
+        }
+        .leaderboard {
+            margin-top: 20px;
+            text-align: left;
+        }
+        .leaderboard ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        .leaderboard li {
+            margin: 5px 0;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <h1>Sanu Nanu Kids Educational Games</h1>
+</header>
+
+<section>
+    <div class="game-category">
+        <h2>Educational Games</h2>
+        <button onclick="selectGame('math')">Math Games</button>
+        <button onclick="selectGame('science')">Science Games</button>
+        <button onclick="selectGame('language')">Language Games</button>
+    </div>
+    <div class="game-category">
+        <h2>Puzzle Games</h2>
+        <button onclick="startPuzzleGame('jigsaw')">Jigsaw Puzzles</button>
+        <button onclick="startPuzzleGame('maze')">Maze Games</button>
+        <button onclick="startPuzzleGame('logic')">Logic Puzzles</button>
+    </div>
+    <div class="game-category">
+        <h2>Adventure Games</h2>
+        <button onclick="startAdventureGame('story')">Interactive Story Games</button>
+        <button onclick="startAdventureGame('exploration')">Exploration Games</button>
+    </div>
+    <div class="game-category">
+        <h2>Creative Games</h2>
+        <button onclick="startCreativeGame('drawing')">Drawing and Painting Games</button>
+        <button onclick="startCreativeGame('building')">Building Games</button>
+        <button onclick="startCreativeGame('dressup')">Dress-Up Games</button>
+    </div>
+    <div class="game-category">
+        <h2>Quizzes</h2>
+        <button onclick="startQuiz('general')">General Knowledge Quizzes</button>
+        <button onclick="startQuiz('subject')">Subject-Specific Quizzes</button>
+        <button onclick="startQuiz('personality')">Personality Quizzes</button>
+        <button onclick="startQuiz('themed')">Seasonal and Themed Quizzes</button>
+    </div>
+</section>
+
+<div id="gameContent">
+    <h2>Welcome to Sanu Nanu Kids Educational Games!</h2>
+    <p>Select a game category to start playing.</p>
+</div>
+
+<div class="leaderboard">
+    <h2>Leaderboard</h2>
+    <ul id="leaderboardList"></ul>
+</div>
+
+<script>
+    const questions = {
+        math: generateMathQuestions(),
+        science: generateScienceQuestions(),
+        language: generateLanguageQuestions(),
+        // Add other categories as needed
+    };
+
+    function generateMathQuestions() {
+        let questions = [];
+        for (let i = 0; i < 100; i++) {
+            let num1 = Math.floor(Math.random() * 10) + 1;
+            let num2 = Math.floor(Math.random() * 10) + 1;
+            let operation = ['+', '-', '*', '/'][Math.floor(Math.random() * 4)];
+            let question, answer;
+            switch (operation) {
+                case '+':
+                    question = `${num1} + ${num2}`;
+                    answer = (num1 + num2).toString();
+                    break;
+                case '-':
+                    question = `${num1} - ${num2}`;
+                    answer = (num1 - num2).toString();
+                    break;
+                case '*':
+                    question = `${num1} * ${num2}`;
+                    answer = (num1 * num2).toString();
+                    break;
+                case '/':
+                    question = `${num1 * num2} / ${num2}`;
+                    answer = num1.toString();
+                    break;
+            }
+            questions.push({
+                question: question,
+                options: shuffle([answer, (parseInt(answer) + 1).toString(), (parseInt(answer) - 1).toString(), (parseInt(answer) + 2).toString()]),
+                answer: answer
+            });
+        }
+        return questions;
+    }
+
+    function generateScienceQuestions() {
+        // Placeholder for generating science questions
+        return [
+            { question: "Which planet is known as the Red Planet?", options: ["Earth", "Mars", "Jupiter", "Venus"], answer: "Mars" },
+            { question: "What is the largest animal?", options: ["Elephant", "Blue Whale", "Giraffe", "Shark"], answer: "Blue Whale" },
+            // Add more questions up to 100
+        ];
+    }
+
+    function generateLanguageQuestions() {
+        // Placeholder for generating language questions
+        return [
+            { question: "Spell the word: 'Elephant'", options: ["Elephent", "Elephant", "Elephint", "Elefant"], answer: "Elephant" },
+            { question: "Find the correct word: 'He go to school.'", options: ["goes", "gone", "went", "go"], answer: "goes" },
+            // Add more questions up to 100
+        ];
+    }
+
+    function shuffle(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    let selectedGame = '';
+    let currentQuestionIndex = 0;
+    let score = 0;
+    let numberOfQuestions = 5;
+    let points = 0;
+
+    function selectGame(game) {
+        selectedGame = game;
+        currentQuestionIndex = 0;
+        score = 0;
+        document.getElementById('gameContent').innerHTML = `
+            <h2>How many questions do you want to solve?</h2>
+            <input type="number" id="numQuestions" min="1" max="100" value="5">
+            <button onclick="startGame()">Start</button>
+        `;
+    }
+
+    function startGame() {
+        numberOfQuestions = document.getElementById('numQuestions').value;
+        showQuestion();
+    }
+
+    function showQuestion() {
+        if (currentQuestionIndex < numberOfQuestions) {
+            const questionData = questions[selectedGame][currentQuestionIndex];
+            let optionsHTML = '';
+            questionData.options.forEach(option => {
+                optionsHTML += `<button class="option" onclick="checkAnswer('${option}')">${option}</button>`;
+            });
+
+            document.getElementById('gameContent').innerHTML = `
+                <div class="question">
+                    <h2>${questionData.question}</h2>
+                    ${optionsHTML}
+                </div>
+            `;
+        } else {
+            showResult();
+        }
+    }
+
+    function checkAnswer(selectedOption) {
+        const questionData = questions[selectedGame][currentQuestionIndex];
+        if (selectedOption === questionData.answer) {
+            score++;
+            points += 10; // Award 10 points for each correct answer
+        } else {
+            alert(`Wrong answer! The correct answer is ${questionData.answer}`);
+        }
+        currentQuestionIndex++;
+        showQuestion();
+    }
+
+    function showResult() {
+        document.getElementById('gameContent').innerHTML = `
+            <h2>Game Over</h2>
+            <p>You answered ${score} out of ${numberOfQuestions} questions correctly!</p>
+            <p>Your total points: ${points}</p>
+        `;
+        updateLeaderboard();
+    }
+
+    function updateLeaderboard() {
+        const leaderboard = document.getElementById('leaderboardList');
+        const listItem = document.createElement('li');
+        listItem.textContent = `Player - ${points} points`;
+        leaderboard.appendChild(listItem);
+    }
+
+    // Functions for other game categories
+    function startPuzzleGame(type) {
+        document.getElementById('gameContent').innerHTML = `
+            <h2>${type.charAt(0).toUpperCase() + type.slice(1)} Puzzle Game</h2>
+            <p>More puzzles coming soon!</p>
+        `;
+    }
+
+    function startAdventureGame(type) {
+        document.getElementById('gameContent').innerHTML = `
+            <h2>${type.charAt(0).toUpperCase() + type.slice(1)} Adventure Game</h2>
+            <p>More adventures coming soon!</p>
+        `;
+    }
+
+    function startCreativeGame(type) {
+        document.getElementById('gameContent').innerHTML = `
+            <h2>${type.charAt(0).toUpperCase() + type.slice(1)} Creative Game</h2>
+            <p>More creative activities coming soon!</p>
+        `;
+    }
+
+    function startQuiz(category) {
+        document.getElementById('gameContent').innerHTML = `
+            <h2>${category.charAt(0).toUpperCase() + category.slice(1)} Quizzes</h2>
+            <p>More quizzes coming soon!</p>
+        `;
+    }
+</script>
+
+</body>
+</html>

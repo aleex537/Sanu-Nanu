@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #1c2a48;
+            color: white;
+            padding: 10px 20px;
+        }
+        .navbar-left, .navbar-center, .navbar-right {
+            display: flex;
+            align-items: center;
+        }
+        .navbar-logo {
+            font-size: 24px;
+            color: white;
+            text-decoration: none;
+            margin-right: 20px;
+        }
+        .navbar-center a {
+            color: white;
+            text-decoration: none;
+            padding: 0 15px;
+        }
+        .navbar-center a:hover {
+            text-decoration: underline;
+        }
+        .login-btn, .subscribe-btn {
+            color: white;
+            text-decoration: none;
+            padding: 5px 10px;
+            margin-left: 10px;
+        }
+        .subscribe-btn {
+            background-color: #e94e1b;
+            border-radius: 5px;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .search-bar input {
+            width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px 0 0 5px;
+        }
+        .search-bar button {
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-left: none;
+            background-color: #1c2a48;
+            color: white;
+            border-radius: 0 5px 5px 0;
+            cursor: pointer;
+        }
+        .login-container {
+            max-width: 300px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: white;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            text-align: center;
+        }
+        .login-container h2 {
+            margin-bottom: 20px;
+        }
+        .login-container label {
+            display: block;
+            margin: 10px 0 5px;
+        }
+        .login-container input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .login-container button {
+            padding: 10px 20px;
+            background-color: #1c2a48;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .login-container button:hover {
+            background-color: #e94e1b;
+        }
+        .page {
+            display: none;
+        }
+        .page.active {
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-left">
+            <a href="#" class="navbar-logo"><i class="fa fa-bars"></i> Sanu_Nanu</a>
+        </div>
+        <div class="navbar-center">
+            <a href="home.html" class="nav-link" data-page="home">Home</a>
+            <a href="https://drive.google.com/uc?export=view&id=1Le_l_xZsWM3bLb2vCi3R_MdFH5r7HFH5
+            " class="nav-link">History & Society</a>
+            <a href="Games.html" class="nav-link">Science & Tech</a>
+            <a href="Games.html" class="nav-link">Games & Quizzes</a>
+            <a href="Games.html" class="nav-link">Biographies</a>
+            <a href="Games.html" class="nav-link">Animals & Nature</a>
+            <a href="Games.html" class="nav-link">Geography & Travel</a>
+            <a href="Games.html" class="nav-link">Arts & Culture</a>
+            <a href="Games.html" class="nav-link">Videos</a>
+        </div>
+        <div class="navbar-right">
+            <a href="Games.html" class="login-btn nav-link" data-page="login">Login</a>
+            <a href="Games.html" class="subscribe-btn">Subscribe Now</a>
+        </div>
+    </div>
+    <div class="page active" id="home">
+        <div class="search-bar">
+            <input type="text" placeholder="Search Sanu Nanu Cartoon & Rhymes...">
+            <button type="submit"><i class="fa fa-search"></i></button>
+        </div>
+        <!-- Add your homepage content here -->
+    </div>
+   
+    </div>
+    <script>
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', function() {
+                const page = this.getAttribute('data-page');
+                if (page) {
+                    showPage(page);
+                }
+            });
+        });
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+        }
+    </script>
+</body>
+</html>

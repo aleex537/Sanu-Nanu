@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            background: #333; /* Fallback color */
+            color: #fff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        
+        .contact-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 40px;
+            border-radius: 10px;
+            width: 90%;
+            max-width: 1000px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .contact-info, .contact-form {
+            width: 48%;
+        }
+        
+        .contact-info h2, .contact-form h2 {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info p {
+            margin-bottom: 20px;
+        }
+        
+        .contact-info div {
+            display: flex;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        
+        .contact-info div img, .contact-info div span img {
+            width: 40px;
+            margin-right: 20px;
+        }
+        
+        .contact-info div span {
+            display: block;
+        }
+        
+        .contact-info div span:first-child {
+            font-weight: bold;
+            font-size: 18px;
+            color: #28a745;
+        }
+        
+        .contact-info div span:last-child {
+            color: #ddd;
+        }
+        
+        .contact-form input, .contact-form textarea {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        
+        .contact-form button {
+            background: #28a745;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        .contact-form button:hover {
+            background: #218838;
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-container">
+        <div class="contact-info">
+            <h2>Contact Us</h2>
+            <p>"Welcome to our Contact page, where adventures with Sanu and Nanu await! Whether you have a question, a suggestion, or just want to share your favorite rhyme, we're all ears. Let's make memories and melodies together! Reach out to us below and let the fun begin."</p>
+            <div>
+                <span>Address</span>
+                <span>: Biratnagar, Nepal</span>
+            </div>
+            <div>
+                <span>Phone</span>
+                <span>: +977 98********</span>
+            </div>
+            <div>
+                <span>Email</span>
+                <span>: Sanu_Nanu@gamil.com</span>
+            </div>
+        </div>
+        <div class="contact-form">
+            <h2>Send Message</h2>
+            <form id="contact-form">
+                <input type="text" name="name" placeholder="Full Name" required>
+                <input type="email" name="email" placeholder="Email" required>
+                <textarea name="message" rows="5" placeholder="Type your Message..." required></textarea>
+                <button type="submit">Send</button>
+            </form>
+        </div>
+    </div>
+    <script>
+        document.getElementById('contact-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Message sent!');
+        });
+    </script>
+</body>
+</html>
