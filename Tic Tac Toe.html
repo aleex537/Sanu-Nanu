@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tic Tac Toe Glow</title>
+  <style>
+    body {
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      align-items: center;
+      background-color: #282c34;
+      color: white;
+      font-family: Arial, sans-serif;
+      height: 100vh;
+      margin: 0;
+      background-image: url('file:///C:/Users/Asus/Downloads/snake%20bg.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+    }
+
+    h1 {
+      margin-bottom: 20px;
+      color: #ff0051;
+      font-weight: bold;
+      font-size: 60px;
+      text-align: center;
+    }
+
+    #gameBoard {
+      display: grid;
+      grid-template-columns: repeat(3, 100px);
+      grid-template-rows: repeat(3, 100px);
+      gap: 5px;
+      margin-top: 20px;
+    }
+
+    .cell {
+      width: 100px;
+      height: 100px;
+      background-color: #444;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 48px;
+      cursor: pointer;
+      color: white;
+      transition: background-color 0.3s, box-shadow 0.3s;
+    }
+
+    .cell:hover {
+      background-color: #555;
+    }
+
+    .cell.glow-blue {
+      box-shadow: 0 0 10px 5px rgba(0, 0, 255, 0.938);
+    }
+
+    .cell.glow-red {
+      box-shadow: 0 0 10px 5px rgba(228, 3, 3, 0.911);
+    }
+
+    .cell.glow-yellow {
+      box-shadow: 0 0 10px 5px rgba(255, 217, 0, 0.895);
+    }
+
+    .cell.glow-green {
+      box-shadow: 0 0 10px 5px rgba(4, 225, 4, 0.938);
+    }
+
+    #message {
+      font-size: 36px;
+      margin: 20px 0;
+      color: #7c04a3;
+      font-weight: bold;
+      text-align: center;
+    }
+
+    #playAgain {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #109816;
+      border: none;
+      color: white;
+      cursor: pointer;
+      display: none;
+    }
+
+    #playAgain:hover {
+      background-color: #de3535;
+    }
+
+    #difficulty, #playerChoice, #playOption {
+      margin: 20px;
+    }
+
+    #playerChoice label, #difficulty label, #playOption label {
+      margin-right: 10px;
+      font-size: 18px;
+      color: #f347ff;
+      font-weight: bold;
+    }
+
+    #playerSelect, #difficultySelect, #playSelect {
+      padding: 10px;
+      font-size: 16px;
+      background-color: #444;
+      color: white;
+      border: 1px solid #0018f5;
+      border-radius: 5px;
+      transition: background-color 0.3s;
+    }
+
+    #playerSelect:focus, #difficultySelect:focus, #playSelect:focus {
+      background-color: #555;
+      border-color: #4753ff;
+    }
+
+    .loading-bar-container {
+      width: 80%;
+      max-width: 500px;
+      background-color: #444;
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 20px;
+    }
+
+    .loading-bar {
+      height: 30px;
+      width: 0%;
+      background-color: #850aa7;
+      text-align: center;
+      line-height: 30px;
+      color: white;
+      font-weight: bold;
+    }
+
+    /* Scoreboard styles */
+    #scoreboard {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      background-color: #333;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+      font-size: 20px;
+      color: #ff47a3;
+      font-weight: bold;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    #scoreboard div {
+      margin-bottom: 10px;
+    }
+
+    #scoreboard h2 {
+      margin-bottom: 20px;
+      font-size: 24px;
+    }
+
+    /* Turn Indicator */
+    #turnIndicator {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-top: 20px;
+    }
+
+    .icon {
+      font-size: 48px;
+      font-weight: bold;
+      color: #ff0051;
+      transition: transform 0.5s ease;
+      text-align: center;
+    }
+
+    .icon.rotate {
+      transform: rotate(360deg);
+    }
+
+    .active-turn {
+      color: #99ff00;
+      text-shadow: 0 0 10px #cc00ff, 0 0 20px #1b118b, 0 0 30px #cc00ff;
+    }
+
+    .glow-message {
+      text-shadow: 0 0 10px #ff0099, 0 0 20px #00fff7, 0 0 30px #1500ff;
+    }
+  </style>
+</head>
+<body>
+  <!-- Loading Screen -->
+  <div class="loading">
+    <h1>Loading Game...</h1>
+    <div class="loading-bar-container">
+      <div class="loading-bar" id="loadingBar">0%</div>
+    </div>
+  </div>
+
+  <!-- Main Menu -->
+  <div class="menu" style="display:none;">
+    <h1>Tic Tac Toe</h1>
+    <!-- Scoreboard -->
+    <div id="scoreboard">
+      <h2>Scoreboard</h2>
+      <div>Player X: <span id="scoreX">0</span></div>
+      <div>Player O: <span id="scoreO">0</span></div>
+      <div>Draws: <span id="draws">0</span></div>
+    </div>
+
+    <div id="playerChoice">
+      <label for="playerSelect">Choose your symbol:</label>
+      <select id="playerSelect">
+        <option value="X">X</option>
+        <option value="O">O</option>
+      </select>
+    </div>
+    <div id="difficulty">
+      <label for="difficultySelect">Difficulty:</label>
+      <select id="difficultySelect">
+        <option value="easy">Easy</option>
+        <option value="medium">Medium</option>
+        <option value="hard">Hard</option>
+      </select>
+    </div>
+    <div id="playOption">
+      <label for="playSelect">Play Against:</label>
+      <select id="playSelect">
+        <option value="computer">Computer</option>
+        <option value="twoPlayers">Two Players</option>
+      </select>
+    </div>
+    
+    <!-- Turn Indicator -->
+    <div id="turnIndicator">
+      <div class="icon" id="playerIcon">X</div>
+    </div>
+
+    <div id="message">Choose your symbol, difficulty, and opponent!</div>
+    <div id="gameBoard">
+      <!-- 9 Cells for Tic Tac Toe -->
+      <div class="cell" data-index="0"></div>
+      <div class="cell" data-index="1"></div>
+      <div class="cell" data-index="2"></div>
+      <div class="cell" data-index="3"></div>
+      <div class="cell" data-index="4"></div>
+      <div class="cell" data-index="5"></div>
+      <div class="cell" data-index="6"></div>
+      <div class="cell" data-index="7"></div>
+      <div class="cell" data-index="8"></div>
+    </div>
+    <button id="playAgain" style="display: none;">Play Again</button>
+  </div>
+
+  <script>
+    let loading = 0;
+    const loadingBar = document.getElementById('loadingBar');
+    let currentPlayer = 'X';
+    let gameBoard = ['','','','','','','','',''];
+    let gameActive = true;
+    let playAgainst = 'twoPlayers';
+    let scoreX = 0;
+    let scoreO = 0;
+    let draws = 0;
+
+    const cells = document.querySelectorAll('.cell');
+    const message = document.getElementById('message');
+    const playAgainBtn = document.getElementById('playAgain');
+    const difficultySelect = document.getElementById('difficultySelect');
+    const playerSelect = document.getElementById('playerSelect');
+    const playSelect = document.getElementById('playSelect');
+    const scoreXDisplay = document.getElementById('scoreX');
+    const scoreODisplay = document.getElementById('scoreO');
+    const drawsDisplay = document.getElementById('draws');
+    const playerIcon = document.getElementById('playerIcon');
+
+    // Initialize win sound (ensure the file path is correct)
+    const winSound = new Audio('file:///C:/Users/Asus/wow-171498.mp3');
+
+    function showGamePage() {
+      document.querySelector('.loading').style.display = 'none';
+      document.querySelector('.menu').style.display = 'block';
+    }
+
+    function updateLoadingBar() {
+      loading += 1;
+      loadingBar.style.width = loading + '%';
+      loadingBar.textContent = loading + '%';
+      
+      if (loading < 100) {
+        setTimeout(updateLoadingBar, 120);
+      } else {
+        setTimeout(showGamePage, 1000);
+      }
+    }
+
+    window.onload = () => updateLoadingBar();
+
+    const winningCombinations = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6]
+    ];
+
+    function checkWinner() {
+      for (const combination of winningCombinations) {
+        const [a, b, c] = combination;
+        if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
+          if (gameBoard[a] === 'X') {
+            cells[a].classList.add('glow-yellow');
+            cells[b].classList.add('glow-yellow');
+            cells[c].classList.add('glow-yellow');
+            message.textContent = `Player X Wins!`;
+            scoreX++;
+            scoreXDisplay.textContent = scoreX;
+          } else {
+            cells[a].classList.add('glow-green');
+            cells[b].classList.add('glow-green');
+            cells[c].classList.add('glow-green');
+            message.textContent = `Player O Wins!`;
+            scoreO++;
+            scoreODisplay.textContent = scoreO;
+          }
+          // Play win sound when a win is detected
+          winSound.play();
+          gameActive = false;
+          showPlayAgain();
+          return;
+        }
+      }
+      if (!gameBoard.includes('')) {
+        message.textContent = "It's a Draw!";
+        draws++;
+        drawsDisplay.textContent = draws;
+        gameActive = false;
+        // Optional: Play a tie sound here if desired
+        // tieSound.play();
+        showPlayAgain();
+      }
+    }
+
+    let turnTimer;
+    function handleClick(event) {
+      const cell = event.target;
+      const index = cell.dataset.index;
+
+      if (gameBoard[index] || !gameActive) return;
+
+      gameBoard[index] = currentPlayer;
+      cell.textContent = currentPlayer;
+      checkWinner();
+
+      if (gameActive) {
+        currentPlayer = currentPlayer === 'X' ? 'O' : 'X';
+        message.textContent = `Player ${currentPlayer}'s Turn`;
+        updateGlowEffect();
+        updateTurnIndicator();
+
+        clearTimeout(turnTimer);
+        startTurnTimer();
+
+        if (playAgainst === 'computer' && currentPlayer === 'O') {
+          setTimeout(computerMove, 500);
+        }
+      }
+    }
+
+    function updateGlowEffect() {
+      cells.forEach(cell => {
+        cell.classList.remove('glow-blue', 'glow-red', 'glow-yellow', 'glow-green');
+        if (currentPlayer === 'X') {
+          cell.classList.add('glow-blue');
+        } else {
+          cell.classList.add('glow-red');
+        }
+      });
+    }
+
+    function updateTurnIndicator() {
+      playerIcon.textContent = currentPlayer;
+      playerIcon.classList.add('rotate');
+      setTimeout(() => playerIcon.classList.remove('rotate'), 500);
+    }
+
+    function highlightTurn() {
+      message.classList.add('glow-message');
+      setTimeout(() => {
+        message.classList.remove('glow-message');
+      }, 3000);
+    }
+
+    function startTurnTimer() {
+      turnTimer = setTimeout(() => {
+        highlightTurn();
+      }, 3000);
+    }
+
+    function computerMove() {
+      if (!gameActive) return;
+      let emptyCells = gameBoard.map((value, index) => value === '' ? index : -1).filter(index => index !== -1);
+      let randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+
+      gameBoard[randomIndex] = 'O';
+      cells[randomIndex].textContent = 'O';
+      checkWinner();
+
+      if (gameActive) {
+        currentPlayer = 'X';
+        message.textContent = "Player X's Turn";
+        updateGlowEffect();
+        updateTurnIndicator();
+      }
+    }
+
+    function resetGame() {
+      gameBoard = ['','','','','','','','',''];
+      gameActive = true;
+      currentPlayer = 'X';
+      message.textContent = `Player ${currentPlayer}'s Turn`;
+      cells.forEach(cell => {
+        cell.textContent = '';
+        cell.classList.remove('glow-blue', 'glow-red', 'glow-yellow', 'glow-green');
+      });
+      updateGlowEffect();
+      updateTurnIndicator();
+      clearTimeout(turnTimer);
+      startTurnTimer();
+    }
+
+    function showPlayAgain() {
+      playAgainBtn.style.display = 'block';
+      playAgainBtn.onclick = () => {
+        resetGame();
+        playAgainBtn.style.display = 'none';
+      }
+    }
+
+    cells.forEach(cell => {
+      cell.addEventListener('click', handleClick);
+    });
+
+    startTurnTimer();
+  </script>
+</body>
+</html>
